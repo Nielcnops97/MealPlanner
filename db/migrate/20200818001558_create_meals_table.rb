@@ -4,7 +4,7 @@ class CreateMealsTable < ActiveRecord::Migration[6.0]
       t.references :user
       t.references :protein
       t.references :grain
-      t.references :fruit_veggie
+      t.references :veggie
       t.string :name
     end
   end

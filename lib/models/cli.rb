@@ -67,8 +67,9 @@ class Cli
         binding.pry
     end
 
+    def find_user(name)
+        User.all.find_by(name: name)   
+    end
 
-
-
-
+    
 end

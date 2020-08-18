@@ -26,4 +26,5 @@ class User < ActiveRecord::Base
         end
         bmr.floor
     end
+
 end

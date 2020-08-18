@@ -1,7 +1,7 @@
 require_relative 'config/environment'
 
 cli = Cli.new
-
+binding.pry
 name = cli.greet_user
 #check all users and if name == a user.name then @user = user
 user = cli.get_and_create_user_info(name)

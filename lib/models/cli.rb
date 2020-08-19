@@ -20,26 +20,42 @@ class Cli
     end
 
     def sign_in_menu
-        prompt_select("Welcome to MealPlanner! \n Are you a:", sign_in_choices)
+        prompt_select("Welcome to MealPlanner! \n\nWhat kind of user are you?", sign_in_choices)
     end
 
-    def greet_user
-        #puts "Welcome to MealPlanner, please enter your username:" # <-- add method to find existing user
-        @prompt.ask("Please enter your new username:")     
+    def sign_in_choices
+        {"1. New user": -> { get_and_create_user_info }, "2. Existing user": -> { find_existing_user }, "3. Sign in as guest": -> {3}}
     end
 
     def find_existing_user
-        puts "Enter you username:"
+        puts "Enter your username:"
         name = @prompt.ask
+        if !find_user(name)
+            puts "Invalid user, please try again."
+            find_existing_user
+        end
         @user = find_user(name)
+    end
+
+    def find_user(name)
+        User.all.find_by(name: name)   
+    end
+
+    def main_menu
+        puts "What would you like to do?"
+        # Change user info
+        # Change my meals
+        # Delete my meals
+        # make new Meal
+        # Create a meal plan
     end
 
     def activity_choices
         {"1. I'm fairly sedentary.": 1, "2. I exercise a couple times a week.": 2, "3. I exercise nearly every day.": 3}
     end
 
-    def sign_in_choices
-        {"1. New user": greet_user, "2. Existing user": 2, "3. Sign in as guest": 3}
+    def get_name
+        (@prompt.ask("Please enter your new username:"))
     end
 
     def get_age
@@ -63,7 +79,8 @@ class Cli
     end
 
 
-    def get_and_create_user_info(name)
+    def get_and_create_user_info
+        name = get_name
         age = get_age
         height = get_height
         weight = get_weight
@@ -101,9 +118,6 @@ class Cli
         meal.display_meal
     end
 
-    def find_user(name)
-        User.all.find_by(name: name)   
-    end
-
+    
     
 end

@@ -4,7 +4,7 @@ Protein.destroy_all
 User.destroy_all
 Veggie.destroy_all
 
-tj = User.create(name: "TJ", age: 25, sex: "M", height: 72, weight: 185, activity: 2)
+# tj = User.create(name: "TJ", age: 25, sex: "M", height: 72, weight: 185, activity: 2)
 charlie = User.create(name: "Charlie", age: 25, sex: "M", height: 74, weight: 182, activity: 2)
 
 

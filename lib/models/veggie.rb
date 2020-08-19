@@ -4,7 +4,7 @@ class Veggie < ActiveRecord::Base
 
 
     def self.print_names
-        all.map {|veggie| puts veggie.name}
+        all.map {|veggie| veggie.name}
     end
 
 end

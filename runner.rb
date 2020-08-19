@@ -2,7 +2,6 @@ require_relative 'config/environment'
 
 cli = Cli.new
 name = cli.greet_user
-binding.pry
 if cli.find_user(name)
     cli.user = cli.find_user(name)
 else

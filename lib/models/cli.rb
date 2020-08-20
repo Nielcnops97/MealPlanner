@@ -49,9 +49,9 @@ class Cli
     def main_menu_choices
         {
             "1. Add a new meal!": -> { create_or_select_meal },
-            "2. Create a meal plan!": 2,  # <---list of meals
+            "2. Create a meal plan!": -> { combine_meals},  
             "3. Change a meal!": 3, # <--- update a user meal
-            "4. Change user info.": -> { change_user_info } , #< -- update user info or delete user
+            "4. Change user info.": -> { change_user_info } , 
             "5. Quit Mealplanner": -> { quit }
         }
     end
@@ -132,6 +132,12 @@ class Cli
         main_menu
     end
 
+    def get_meal_by_name(meal_name)
+        meal_name = meal_name.split(' -- ')
+        name = meal_name.first
+        meal = Meal.all.find_by(name: name)
+    end
+
     def create_meal
         protein = select_protein
         veggie = select_veggie
@@ -142,6 +148,23 @@ class Cli
         main_menu
     end
 
+    def combine_meals
+        combined_meal_names = @prompt.multi_select("Lets make a MealPlan! Select the meals you want to use:",  Meal.all.map {|meal| meal.name})
+        combined_meals = combined_meal_names.map{|name| Meal.all.find_by(name: name)}
+        #combine_calories combined_meals
+        if combine_calories(combined_meals) > user.bmr
+            puts "Total mealplan calories: #{combine_calories combined_meals}. You are #{combine_calories(combined_meals) - user.bmr} over your daily calories."
+        else
+            puts "Total mealplan calories: #{combine_calories combined_meals}. You are #{ user.bmr - combine_calories(combined_meals)} under your daily calories!"
+        end
+        main_menu
+    end
+
+    def combine_calories meals
+        meals.reduce(0) {|sum, n| sum + n.calorie_count }
+    end
+
+    #sum + n.calorie_count
     def meal_transform meal
         puts "What would you like to call your new meal?"
         name = gets.strip

@@ -7,6 +7,8 @@ class Meal < ActiveRecord::Base
     has_many :veggies
     has_many :grains
 
+    attr_writer :protein, :veggie, :grain
+
     def calorie_count
         self.protein.calories + self.grain.calories + self.veggie.calories
     end

@@ -3,6 +3,9 @@ class Meal < ActiveRecord::Base
     belongs_to :veggie
     belongs_to :protein
     belongs_to :grain
+    has_many :proteins
+    has_many :veggies
+    has_many :grains
 
     def calorie_count
         self.protein.calories + self.grain.calories + self.veggie.calories

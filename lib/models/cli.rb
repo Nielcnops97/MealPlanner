@@ -42,12 +42,44 @@ class Cli
     end
 
     def main_menu
-        puts "What would you like to do?"
-        # Change user info
-        # Change my meals
-        # Delete my meals
-        # make new Meal
-        # Create a meal plan
+        prompt_select("What would you like to do?", main_menu_choices)
+    end
+
+    def main_menu_choices
+        {
+            "1. Add a new meal!": -> { create_or_select_meal },
+            "2. Create a meal plan!": 2,  # <---list of meals
+            "3. Change a meal!": 3, # <--- update a user meal
+            "4. Change user info.": 4, #< -- update user info or delete user
+            "5. Quit Mealplanner": -> { quit }
+        }
+    end
+
+    def create_or_select_meal
+        prompt_select("Would you like to make your own meal, or choose another user-created meal?", create_or_select_meal_choices)
+    end
+
+    def create_or_select_meal_choices
+        {
+            "Create my own meal!": -> { create_meal }, 
+            "Pick a user created meal": -> { all_meals }
+        }
+    end
+
+    def select_a_meal
+        prompt_select("Select a user-created meal!", Meal.all.map {|meal| meal.name})
+        # make the existing meal become the new user's meal
+        main_menu
+    end
+
+    def create_meal
+        protein = select_protein
+        veggie = select_veggie
+        grain = select_grain
+        name = @prompt.ask("What would you like to call your meal?")
+        meal = Meal.create(name: name, protein: protein, grain: grain, veggie: veggie, user: self.user)
+        meal.display_meal
+        main_menu
     end
 
     def activity_choices
@@ -98,12 +130,12 @@ class Cli
     end
 
     def select_protein
-        selection = prompt_select("Please select a protein:", Protein.order(:name).print_names) #need to edit print names method
+        selection = prompt_select("Please select a protein:", Protein.order(:name).print_names)
         Protein.find_by(name: selection)
     end
 
     def select_veggie
-        selection = prompt_select("Please select a vegtable", Veggie.order(:name).print_names) #need to edit print names method
+        selection = prompt_select("Please select a vegtable", Veggie.order(:name).print_names)
         Veggie.find_by(name: selection)
     end
 
@@ -112,12 +144,10 @@ class Cli
         Grain.find_by(name: selection)
     end
     
-    def create_meal protein, grain, veggie, user
-        name = @prompt.ask("What would you like to call your meal?")
-        meal = Meal.create(name: name, protein: protein, grain: grain, veggie: veggie, user: user)
-        meal.display_meal
+  
+    def quit
+        puts "Goodbye!"
+        $running = false
     end
-
-    
     
 end

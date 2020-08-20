@@ -121,9 +121,14 @@ class Cli
         }
     end
 
+    def meal_with_components
+        Meal.all.map {|meal| "#{meal.name} -- contains: #{meal.protein.name} with #{meal.veggie.name} and #{meal.grain.name}" }
+    end
+
     def select_a_meal
-        prompt_select("Select a user-created meal!", Meal.all.map {|meal| meal.name})
-        # make the existing meal become the new user's meal
+        meal_name = prompt_select("Select a user-created meal!", meal_with_components)
+        meal = Meal.all.find_by(name: meal_name)
+        meal_transform(meal)
         main_menu
     end
 
@@ -137,39 +142,48 @@ class Cli
         main_menu
     end
 
+    def meal_transform meal
+        puts "What would you like to call your new meal?"
+        name = gets.strip
+        new_meal = Meal.create(name: name, protein: meal.protein, grain: meal.grain, veggie: meal.veggie, user: self.user)
+    end
+
     def activity_choices
         {"1. I'm fairly sedentary.": 1, "2. I exercise a couple times a week.": 2, "3. I exercise nearly every day.": 3}
     end
 
     def get_name
         @prompt.ask("Please enter your new username:", required: true) do |q|
+            q.validate { |input| input =~ /^[a-zA-Z0-9_.-]*$/ }
             q.modify :strip
         end
     end
 
     def get_age
         @prompt.ask("Please input your age:", required: true) do |q|
-            q.modify :strip
+            q.validate { |input| input =~ /^[0-9]*$/ }
             q.modify :to_i
         end
     end
 
     def get_height
         @prompt.ask("Thank you, please enter your height in inches:", required: true) do |q|
-            q.modify :strip
+            q.validate { |input| input =~ /^[0-9]*$/ }
             q.modify :to_i
         end
     end
 
     def get_weight
         @prompt.ask("Thank you, please enter your weight:", required: true) do |q|
-            q.modify :strip
+            q.validate { |input| input =~ /^[0-9]*$/ }
             q.modify :to_i
         end
     end
 
     def get_sex
-        @prompt.ask("Thank you, please enter you sex:  M/F", required: true)
+        @prompt.ask("Thank you, please enter you sex:  M/F", required: true) do |q|
+            q.validate { |input| input =~ /^[MF]*$/ && input.length == 1 }
+        end
     end
     
     def get_activity
@@ -179,7 +193,7 @@ class Cli
 
     def get_and_create_user_info
         @user = User.new(name: get_name, age: get_age, weight: get_weight, height: get_height, sex: get_sex, activity: get_activity)
-        @user.bmr = @user.bmr_calc
+        @user.bmr = user.bmr_calc
         puts "Thank you! Based on your information your maximum daily caloric intake should be #{@user.bmr}."
         @user.save
         @user
@@ -203,11 +217,9 @@ class Cli
         selection = prompt_select("Please select a grain:", Grain.order(:name).print_names)
         Grain.find_by(name: selection)
     end
-    
-  
+
     def quit
         puts "Goodbye!"
         $running = false
     end
-    
 end

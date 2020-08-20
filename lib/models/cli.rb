@@ -122,12 +122,14 @@ class Cli
     end
 
     def meal_with_components
-        Meal.all.map {|meal| "#{meal.name} -- contains: #{meal.protein.name} with #{meal.veggie.name} and #{meal.grain.name}" }
+        Meal.all.map {|meal| "#{meal.name} -- contains: #{meal.protein.name} with #{meal.veggie.name} and #{meal.grain.name}"}
     end
 
     def select_a_meal
         meal_name = prompt_select("Select a user-created meal!", meal_with_components)
-        meal = Meal.all.find_by(name: meal_name)
+        meal_name = meal_name.split('--')
+        name = meal_name.first.strip
+        meal = Meal.all.find_by(name: name)
         meal_transform(meal)
         main_menu
     end

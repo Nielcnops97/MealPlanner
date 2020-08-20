@@ -9,9 +9,3 @@ while $running == true do
     end
     cli.main_menu
 end
-
-
-
-
-
-

@@ -205,7 +205,12 @@ class Cli
     end
 
     def activity_choices
-        {"1. I'm fairly sedentary.": 1, "2. I exercise a couple times a week.": 2, "3. I exercise nearly every day.": 3}
+        {
+            "1. I'm fairly sedentary.": 1, 
+            "2. I exercise a couple times a week.": 2, 
+            "3. I exercise nearly every day.": 3,
+            "4. I would like to restart": -> { sign_in_menu }
+        }
     end
 
     def get_name

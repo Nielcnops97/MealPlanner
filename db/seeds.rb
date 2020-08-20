@@ -15,7 +15,6 @@ pita_bread = Grain.create(name: "Pita Bread", calories: 165)
 chicken_breast = Protein.create(name: "Chicken Breast", calories: 284)
 carrot = Veggie.create(name: "Carrot", calories: 60)
 
-lunch = Meal.create(name: "Lunch", protein: chicken_breast, veggie: carrot, grain: brown_rice, user: charlie)
 salmon = Protein.create(name: "Salmon", calories: 233)
 fried_chicken = Protein.create(name: "Fried Chicken Breast", calories: 435)
 grilled_salmon = Protein.create(name: "Grilled Salmon", calories: 340)

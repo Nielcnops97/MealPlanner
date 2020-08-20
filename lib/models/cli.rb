@@ -193,7 +193,7 @@ class Cli
         veggie = select_veggie
         grain = select_grain
         name = @prompt.ask("What would you like to call your meal?")
-        meal = Meal.create(name: name, protein: protein, grain: grain, veggie: veggie, user: self.user)
+        meal = Meal.create(name: name, protein_id: protein.id, grain_id: grain.id, veggie_id: veggie.id, user: self.user)
         meal.display_meal
         main_menu
     end
@@ -214,7 +214,6 @@ class Cli
         meals.reduce(0) {|sum, n| sum + n.calorie_count }
     end
 
-    #sum + n.calorie_count
     def meal_transform meal
         puts "What would you like to call your new meal?"
         name = gets.strip

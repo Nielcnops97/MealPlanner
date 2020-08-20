@@ -68,6 +68,7 @@ class Cli
             "Weight: (currently: #{@user.weight})": -> { update_weight },
             "Height: (currently: #{@user.height})": -> { update_height },
             "Activity: (currently: #{@user.activity})": -> { update_activity },
+            "Delete user:": -> { user.destroy }, #currently sends you back to sign in menu
             "Or go back to main menu:": -> { main_menu }
         }
     end

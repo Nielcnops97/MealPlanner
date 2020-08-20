@@ -48,10 +48,10 @@ class Cli
 
     def main_menu_choices
         {
-            "1. Add a new meal!": -> { create_or_select_meal },
+            "1. Add a new meal!": -> { create_or_select_meal }, # done
             "2. Create a meal plan!": 2,  # <---list of meals
             "3. Change a meal!": 3, # <--- update a user meal
-            "4. Change user info.": -> { change_user_info } , #< -- update user info or delete user
+            "4. Change user info.": -> { change_user_info } , # done
             "5. Quit Mealplanner": -> { quit }
         }
     end
@@ -127,8 +127,8 @@ class Cli
 
     def select_a_meal
         meal_name = prompt_select("Select a user-created meal!", meal_with_components)
-        meal_name = meal_name.split('--')
-        name = meal_name.first.strip
+        meal_name = meal_name.split(' -- ')
+        name = meal_name.first
         meal = Meal.all.find_by(name: name)
         meal_transform(meal)
         main_menu
@@ -199,10 +199,6 @@ class Cli
         puts "Thank you! Based on your information your maximum daily caloric intake should be #{@user.bmr}."
         @user.save
         @user
-    end
-
-    def meal_plan_intro
-        puts "Let's create a meal plan!"
     end
 
     def select_protein

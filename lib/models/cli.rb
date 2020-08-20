@@ -26,7 +26,7 @@ class Cli
         {"1. New user": -> { get_and_create_user_info },
          "2. Existing user": -> { find_existing_user }, 
          "3. Sign in as guest": -> { main_menu }
-        } #need method for guest sign in
+        } 
     end
 
     def find_existing_user
@@ -50,10 +50,51 @@ class Cli
         {
             "1. Add a new meal!": -> { create_or_select_meal }, # done
             "2. Create a meal plan!": 2,  # <---list of meals
-            "3. Change a meal!": 3, # <--- update a user meal
+            "3. Change/Delete a meal!": -> { user_meals_list }, # <--- update a user meal
             "4. Change user info.": -> { change_user_info } , # done
-            "5. Quit Mealplanner": -> { quit }
+            "5. Quit Mealplanner": -> { quit } #done
         }
+    end
+
+    def user_meals_list
+        meal_name = @prompt.select("Please select one of your meals", meal_with_components(user.id))
+        meal = get_meal_by_name(meal_name)
+        change_or_destroy_meal_select(meal)
+    end
+
+    def change_or_destroy_meal_select(meal)
+        @prompt.select(
+            "What would you like to do with your meal? \n\n 
+            #{meal.name} -- contains: #{meal.protein.name} with #{meal.veggie.name} and #{meal.grain.name}\n\n",
+            change_or_destroy(meal)
+        )
+    end
+
+    def change_or_destroy(meal)
+        {
+            "1. Change part of the meal": -> { change_list(meal) },
+            "2. Destroy meal": -> { destroy_meal(meal)}
+        }
+    end
+
+    def change_list(meal)
+        @prompt.select("What would you like to change?", components_list(meal))
+        puts "Your meal has been changed!\n\n"
+        main_menu
+    end
+
+    def components_list(meal)
+        {
+            "1. Protein": -> {select_protein(meal)},
+            "2. Veggie": -> {select_veggie(meal)},
+            "3. Grain": -> {select_grain(meal)}
+        }
+    end
+
+    def destroy_meal(meal)
+        meal.destroy
+        puts "You meal has been destroyed! Good riddance!"
+        main_menu
     end
 
     def change_user_info
@@ -121,17 +162,26 @@ class Cli
         }
     end
 
-    def meal_with_components
+    def meal_with_components userid=nil
+        if userid
+            meals = Meal.all.select {|meal| meal.user_id == userid}
+            return meals.map {|meal| "#{meal.name} -- contains: #{meal.protein.name} with #{meal.veggie.name} and #{meal.grain.name}"}
+        end
         Meal.all.map {|meal| "#{meal.name} -- contains: #{meal.protein.name} with #{meal.veggie.name} and #{meal.grain.name}"}
     end
 
     def select_a_meal
         meal_name = prompt_select("Select a user-created meal!", meal_with_components)
+        meal = get_meal_by_name(meal_name)
+        meal_transform(meal)
+        puts "Your new meal has been added!\n\n"
+        main_menu
+    end
+
+    def get_meal_by_name(meal_name)
         meal_name = meal_name.split(' -- ')
         name = meal_name.first
         meal = Meal.all.find_by(name: name)
-        meal_transform(meal)
-        main_menu
     end
 
     def create_meal
@@ -201,17 +251,38 @@ class Cli
         @user
     end
 
-    def select_protein
+    def select_protein meal=nil
+        if meal
+            selection = prompt_select("Please select a protein:", Protein.order(:name).print_names)
+            new_protein = Protein.find_by(name: selection)
+            meal.protein_id = new_protein.id
+            meal.save
+            return 
+        end
         selection = prompt_select("Please select a protein:", Protein.order(:name).print_names)
         Protein.find_by(name: selection)
     end
 
-    def select_veggie
+    def select_veggie meal=nil
+        if meal
+            selection = prompt_select("Please select a veggie:", Veggie.order(:name).print_names)
+            new_veggie = Veggie.find_by(name: selection)
+            meal.veggie_id = new_veggie.id
+            meal.save
+            return 
+        end
         selection = prompt_select("Please select a vegtable", Veggie.order(:name).print_names)
         Veggie.find_by(name: selection)
     end
 
-    def select_grain
+    def select_grain meal=nil
+        if meal
+            selection = prompt_select("Please select a grain:", Grain.order(:name).print_names)
+            new_grain = Grain.find_by(name: selection)
+            meal.grain_id = new_grain.id
+            meal.save
+            return 
+        end
         selection = prompt_select("Please select a grain:", Grain.order(:name).print_names)
         Grain.find_by(name: selection)
     end

@@ -25,7 +25,8 @@ class Cli
     def sign_in_choices
         {"1. New user": -> { get_and_create_user_info },
          "2. Existing user": -> { find_existing_user }, 
-         "3. Sign in as guest": -> {3}} #need method for guest sign in
+         "3. Sign in as guest": -> { main_menu }
+        } #need method for guest sign in
     end
 
     def find_existing_user
@@ -36,13 +37,13 @@ class Cli
         end
         @user = find_user(name)
     end
-
+ 
     def find_user(name)
         User.all.find_by(name: name)   
     end
 
     def main_menu
-        prompt_select("Hello #{@user.name}, what would you like to do?", main_menu_choices)
+        prompt_select("What would you like to do?", main_menu_choices)
     end
 
     def main_menu_choices
@@ -50,9 +51,63 @@ class Cli
             "1. Add a new meal!": -> { create_or_select_meal },
             "2. Create a meal plan!": 2,  # <---list of meals
             "3. Change a meal!": 3, # <--- update a user meal
-            "4. Change user info.": 4, #< -- update user info or delete user
+            "4. Change user info.": -> { change_user_info } , #< -- update user info or delete user
             "5. Quit Mealplanner": -> { quit }
         }
+    end
+
+    def change_user_info
+        @prompt.select("Please select what info you would like to change:", user_info_choices)
+    end
+
+    def user_info_choices
+        {
+            "Name: (currently: #{@user.name})": -> { update_name },
+            "Age: (currently: #{@user.age})": -> { update_age },
+            "Sex: (currently: #{@user.sex})": -> { update_sex },
+            "Weight: (currently: #{@user.weight})": -> { update_weight },
+            "Height: (currently: #{@user.height})": -> { update_height },
+            "Activity: (currently: #{@user.activity})": -> { update_activity },
+            "Delete user:": -> { user.destroy }, #currently sends you back to sign in menu
+            "Or go back to main menu:": -> { main_menu }
+        }
+    end
+
+    def update_name
+        @user.name = get_name
+        update_bmr
+    end
+
+    def update_age
+        @user.age = get_age
+        update_bmr
+    end
+
+    def update_sex
+        @user.sex = get_sex
+        update_bmr
+    end
+
+    def update_weight
+        @user.weight = get_weight
+        update_bmr
+    end
+
+    def update_height
+        @user.height = get_height
+        update_bmr
+    end
+
+    def update_activity
+        @user.activity = get_activity
+        update_bmr
+    end
+
+    def update_bmr
+        @user.bmr = @user.bmr_calc
+        @user.save
+        change_user_info
+
     end
 
     def create_or_select_meal

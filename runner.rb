@@ -10,11 +10,9 @@ while $running == true do
     cli.main_menu
 
 
-    binding.pry
-
 end
 
-
+binding.pry
 
 
 

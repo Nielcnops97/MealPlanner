@@ -67,8 +67,9 @@ class Cli
     end
 
     def select_a_meal
-        meal = prompt_select("Select a user-created meal!", Meal.all.map {|meal| meal.name})
-        # make the existing meal become the new user's meal
+        meal_name = prompt_select("Select a user-created meal!", Meal.all.map {|meal| meal.name})
+        meal = Meal.all.find_by(name: meal_name)
+        meal_transform(meal)
         main_menu
     end
 
@@ -80,6 +81,12 @@ class Cli
         meal = Meal.create(name: name, protein: protein, grain: grain, veggie: veggie, user: self.user)
         meal.display_meal
         main_menu
+    end
+
+    def meal_transform meal
+        puts "What would you like to call your new meal?"
+        name = gets.strip
+        new_meal = Meal.create(name: name, protein: meal.protein, grain: meal.grain, veggie: meal.veggie, user: self.user)
     end
 
     def activity_choices
@@ -127,7 +134,7 @@ class Cli
 
     def get_and_create_user_info
         @user = User.new(name: get_name, age: get_age, weight: get_weight, height: get_height, sex: get_sex, activity: get_activity)
-        @user.bmr = @user.bmr_calc
+        @user.bmr = user.bmr_calc
         puts "Thank you! Based on your information your maximum daily caloric intake should be #{@user.bmr}."
         @user.save
         @user
@@ -156,5 +163,4 @@ class Cli
         puts "Goodbye!"
         $running = false
     end
-    
 end

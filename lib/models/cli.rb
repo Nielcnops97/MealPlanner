@@ -29,7 +29,6 @@ class Cli
     end
 
     def find_existing_user
-        #puts "Enter your username:"
         name = @prompt.ask("Enter your username:")
         if !find_user(name)
             puts "Invalid user, please try again."
@@ -88,23 +87,34 @@ class Cli
     end
 
     def get_name
-        (@prompt.ask("Please enter your new username:"))
+        @prompt.ask("Please enter your new username:", required: true) do |q|
+            q.modify :strip
+        end
     end
 
     def get_age
-        (@prompt.ask("Please input your age:")).to_i
+        @prompt.ask("Please input your age:", required: true) do |q|
+            q.modify :strip
+            q.modify :to_i
+        end
     end
 
     def get_height
-        (@prompt.ask("Thank you, please enter your height in inches:")).to_i
+        @prompt.ask("Thank you, please enter your height in inches:", required: true) do |q|
+            q.modify :strip
+            q.modify :to_i
+        end
     end
 
     def get_weight
-        (@prompt.ask("Thank you, please enter your weight:")).to_i
+        @prompt.ask("Thank you, please enter your weight:", required: true) do |q|
+            q.modify :strip
+            q.modify :to_i
+        end
     end
 
     def get_sex
-        @prompt.ask("Thank you, please enter you sex:  M/F")
+        @prompt.ask("Thank you, please enter you sex:  M/F", required: true)
     end
     
     def get_activity

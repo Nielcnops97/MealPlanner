@@ -25,7 +25,7 @@ class Cli
     def sign_in_choices
         {"1. New user": -> { get_and_create_user_info },
          "2. Existing user": -> { find_existing_user }, 
-         "3. Sign in as guest": -> {3}} #need method for guest sign in
+         "3. Sign in as guest": -> {main_menu}} #need method for guest sign in
     end
 
     def find_existing_user
@@ -42,7 +42,7 @@ class Cli
     end
 
     def main_menu
-        prompt_select("Hello #{@user.name}, what would you like to do?", main_menu_choices)
+        prompt_select("What would you like to do?", main_menu_choices)
     end
 
     def main_menu_choices

@@ -13,23 +13,24 @@ class Cli
         @user
         @prompt = tty_prompt
     end
-    # plan to initialize user in order to have an individual user sign in again after closing the app.
 
     def prompt_select(prompt, choices)
         @prompt.select(prompt, choices, per_page: 7, filter: true)
     end
 
     def sign_in_menu
-        prompt_select("Welcome to MealPlanner! \n\nWhat kind of user are you?", sign_in_choices)
+        prompt_select("Welcome to MealPlanner! \n\n What kind of user are you?", sign_in_choices)
     end
 
     def sign_in_choices
-        {"1. New user": -> { get_and_create_user_info }, "2. Existing user": -> { find_existing_user }, "3. Sign in as guest": -> {3}}
+        {"1. New user": -> { get_and_create_user_info },
+         "2. Existing user": -> { find_existing_user }, 
+         "3. Sign in as guest": -> {3}} #need method for guest sign in
     end
 
     def find_existing_user
-        puts "Enter your username:"
-        name = @prompt.ask
+        #puts "Enter your username:"
+        name = @prompt.ask("Enter your username:")
         if !find_user(name)
             puts "Invalid user, please try again."
             find_existing_user
@@ -42,7 +43,7 @@ class Cli
     end
 
     def main_menu
-        prompt_select("What would you like to do?", main_menu_choices)
+        prompt_select("Hello #{@user.name}, what would you like to do?", main_menu_choices)
     end
 
     def main_menu_choices
@@ -62,7 +63,7 @@ class Cli
     def create_or_select_meal_choices
         {
             "Create my own meal!": -> { create_meal }, 
-            "Pick a user created meal": -> { all_meals }
+            "Pick a user created meal": -> { select_a_meal }
         }
     end
 
@@ -112,13 +113,7 @@ class Cli
 
 
     def get_and_create_user_info
-        name = get_name
-        age = get_age
-        height = get_height
-        weight = get_weight
-        sex = get_sex
-        activity = get_activity
-        @user = User.new(name: name, age: age, weight: weight, height: height, sex: sex, activity: activity)
+        @user = User.new(name: get_name, age: get_age, weight: get_weight, height: get_height, sex: get_sex, activity: get_activity)
         @user.bmr = @user.bmr_calc
         puts "Thank you! Based on your information your maximum daily caloric intake should be #{@user.bmr}."
         @user.save

@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
     has_many :protiens, through: :meals
     has_many :grain, through: :meals
 
+    attr_accessor :bmr
+
     def bmr_calc
         if self.sex == "M"
             bmr = 66 + (6.3 * self.weight) + (12.9 * self.height) - (6.8 * self.age)

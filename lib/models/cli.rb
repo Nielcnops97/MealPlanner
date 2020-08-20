@@ -73,7 +73,9 @@ class Cli
     def change_or_destroy(meal)
         {
             "1. Change part of the meal": -> { change_list(meal) },
-            "2. Destroy meal": -> { destroy_meal(meal)}
+            "2. Destroy meal": -> { destroy_meal(meal)},
+            "3. Choose a different meal": -> { user_meals_list },
+            "4. Return to main menu": -> { main_menu }
         }
     end
 
@@ -87,7 +89,8 @@ class Cli
         {
             "1. Protein": -> {select_protein(meal)},
             "2. Veggie": -> {select_veggie(meal)},
-            "3. Grain": -> {select_grain(meal)}
+            "3. Grain": -> {select_grain(meal)},
+            "4. Back": -> { change_or_destroy_meal_select(meal) }
         }
     end
 
@@ -158,7 +161,8 @@ class Cli
     def create_or_select_meal_choices
         {
             "Create my own meal!": -> { create_meal }, 
-            "Pick a user created meal": -> { select_a_meal }
+            "Pick a user created meal": -> { select_a_meal },
+            "Back": -> { main_menu }
         }
     end
 

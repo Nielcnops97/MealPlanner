@@ -67,7 +67,7 @@ class Cli
     end
 
     def select_a_meal
-        prompt_select("Select a user-created meal!", Meal.all.map {|meal| meal.name})
+        meal = prompt_select("Select a user-created meal!", Meal.all.map {|meal| meal.name})
         # make the existing meal become the new user's meal
         main_menu
     end
@@ -88,33 +88,36 @@ class Cli
 
     def get_name
         @prompt.ask("Please enter your new username:", required: true) do |q|
+            q.validate { |input| input =~ /^[a-zA-Z0-9_.-]*$/ }
             q.modify :strip
         end
     end
 
     def get_age
         @prompt.ask("Please input your age:", required: true) do |q|
-            q.modify :strip
+            q.validate { |input| input =~ /^[0-9]*$/ }
             q.modify :to_i
         end
     end
 
     def get_height
         @prompt.ask("Thank you, please enter your height in inches:", required: true) do |q|
-            q.modify :strip
+            q.validate { |input| input =~ /^[0-9]*$/ }
             q.modify :to_i
         end
     end
 
     def get_weight
         @prompt.ask("Thank you, please enter your weight:", required: true) do |q|
-            q.modify :strip
+            q.validate { |input| input =~ /^[0-9]*$/ }
             q.modify :to_i
         end
     end
 
     def get_sex
-        @prompt.ask("Thank you, please enter you sex:  M/F", required: true)
+        @prompt.ask("Thank you, please enter you sex:  M/F", required: true) do |q|
+            q.validate { |input| input =~ /^[MF]*$/ && input.length == 1 }
+        end
     end
     
     def get_activity
@@ -148,8 +151,7 @@ class Cli
         selection = prompt_select("Please select a grain:", Grain.order(:name).print_names)
         Grain.find_by(name: selection)
     end
-    
-  
+
     def quit
         puts "Goodbye!"
         $running = false

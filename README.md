@@ -9,7 +9,6 @@
 * [Getting Started](#getting-started)
 * [Contact](#contact)
 
-![gif](./MealPlanner.gif)
 
 ## About
 MealPlanner was developed by three Flatiron School students with the goal of making healthy eating easier.  Mealplanner gives users the power to create their own profiles, save and track their meals, and update their information at will as they go on their fitness journey.  All portions are either explicit or based on recommended serving sizes (typically 4oz portions for most major proteins).
@@ -17,7 +16,9 @@ MealPlanner was developed by three Flatiron School students with the goal of mak
 ## Features
 Count calories in real time! MealPlanner has all the tools you need to plan a healthier life:
 
-# code gifs here #
+
+<img src="./MealPlanner.gif" width="40" height ="40" />
+
 * Save yourself as a unique user, so you never miss your meals!
 * Get a readout of your maximum recommended calories. The first step to better health is education!
 * Rapidly shedding those pounds? Update your user info in seconds flat!

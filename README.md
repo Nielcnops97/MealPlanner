@@ -9,6 +9,7 @@
 * [Getting Started](#getting-started)
 * [Contact](#contact)
 
+[gif](file:///home/joliver/Videos/MealPlanner.gif)
 
 ## About
 MealPlanner was developed by three Flatiron School students with the goal of making healthy eating easier.  Mealplanner gives users the power to create their own profiles, save and track their meals, and update their information at will as they go on their fitness journey.  All portions are either explicit or based on recommended serving sizes (typically 4oz portions for most major proteins).

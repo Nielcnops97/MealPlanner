@@ -4,9 +4,6 @@ Protein.destroy_all
 User.destroy_all
 Veggie.destroy_all
 
-# tj = User.create(name: "TJ", age: 25, sex: "M", height: 72, weight: 185, activity: 2)
-charlie = User.create(name: "Charlie", age: 25, sex: "M", height: 74, weight: 182, activity: 2)
-
 
 brown_rice = Grain.create(name: "Brown Rice", calories: 160)
 wheat_bread = Grain.create(name: "Wheat Bread", calories: 91)
@@ -14,7 +11,6 @@ multigrain_bread = Grain.create(name: "Multigrain Bread", calories: 121)
 pita_bread = Grain.create(name: "Pita Bread", calories: 165)
 chicken_breast = Protein.create(name: "Chicken Breast", calories: 284)
 carrot = Veggie.create(name: "Carrot", calories: 60)
-
 salmon = Protein.create(name: "Salmon", calories: 233)
 fried_chicken = Protein.create(name: "Fried Chicken Breast", calories: 435)
 grilled_salmon = Protein.create(name: "Grilled Salmon", calories: 340)

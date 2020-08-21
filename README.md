@@ -53,5 +53,5 @@ Created by [Jay Oliver](https://www.linkedin.com/in/jay-oliver-29678b1b4/), [TJ 
 
 ## License
 
-[License Agreement](file:///Users/tjbachorz/Downloads/EULA.pdf)
+[License Agreement](MealPlanner_License.pdf)
 

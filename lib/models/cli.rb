@@ -119,9 +119,14 @@ class Cli
             "    Height: (currently: #{@user.height})": -> { update_height },
             "    Activity: (currently: #{@user.activity})": -> { update_activity },
             "    What is my current BMR?": -> { view_bmr },
-            "    Delete user:": -> { user.destroy }, #currently sends you back to sign in menu
+            "    Delete user:": -> { destroy_user }, #currently sends you back to sign in menu
             "    Or go back to main menu:": -> { main_menu }
         }
+    end
+    
+    def destroy_user
+        user.destroy
+        sign_in_menu
     end
 
     def view_bmr

@@ -8,6 +8,7 @@
 * [Technologies](#technologies)
 * [Getting Started](#getting-started)
 * [Contact](#contact)
+*[License](#license)
 
 
 ## About
@@ -49,4 +50,8 @@ Simple and easy!  You'll be MealPlanner-ing in a few easy steps:
 ## Contact
 
 Created by [Jay Oliver](https://www.linkedin.com/in/jay-oliver-29678b1b4/), [TJ Bachorz](https://www.linkedin.com/in/tjbachorz/), and [Neil Cnops](https://www.linkedin.com/in/niel-cnops-323556168/)
+
+## License
+
+[License Agreement](file:///Users/tjbachorz/Downloads/EULA.pdf)
 

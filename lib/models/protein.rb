@@ -5,7 +5,5 @@ class Protein < ActiveRecord::Base
     def self.print_names
         all.map {|protein|  protein.name}
     end
-
-    
 end
 

@@ -5,6 +5,4 @@ class Grain < ActiveRecord::Base
     def self.print_names
         all.map {|grain| grain.name}
     end
-
-
 end

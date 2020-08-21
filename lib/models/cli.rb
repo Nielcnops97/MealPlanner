@@ -106,7 +106,6 @@ class Cli
     end
 
     def change_user_info
-        system 'clear'
         @prompt.select("    Please select what info you would like to change:\n", user_info_choices)
     end
 

@@ -11,7 +11,7 @@
 
 
 ## About
-MealPlanner was developed by three Flatiron School students with a 
+MealPlanner was developed by three Flatiron School students with the goal of making healthy eating easier.  Mealplanner gives users the power to create their own profiles, save and track their meals, and update their information at will as they go on their fitness journey.  All portions are either explicit or based on recommended serving sizes (typically 4oz portions for most major proteins).
 
 ## Features
 Count calories in real time! MealPlanner has all the tools you need to plan a healthier life:
@@ -38,10 +38,12 @@ Count calories in real time! MealPlanner has all the tools you need to plan a he
 
 ## Getting Started
 
-Simple and easy!  You'll be MealPlanner-ing in two quick steps:
+Simple and easy!  You'll be MealPlanner-ing in a few easy steps:
 
 1. In your terminal type:  bundle install
-2. You're done!  Now type: ruby runner.rb -- to start MealPlanning!
+2. Now type: rake db:migrate
+3. Now type: rake db:seed
+2. You're done!  Now just run the app by typing: ruby runner.rb -- to start MealPlanning!
 
 ## Contact
 

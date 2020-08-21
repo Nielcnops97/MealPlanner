@@ -80,8 +80,8 @@ class Cli
     end
 
     def change_list(meal)
-        @prompt.select("    What would you like to change?", components_list(meal))
-        puts "    Your meal has been changed!\n\n"
+        @prompt.select("    What would you like to change?\n", components_list(meal))
+        puts "    Your meal has been changed!\n"
         main_menu
     end
 
@@ -175,18 +175,18 @@ class Cli
     def meal_with_components userid=nil
         if userid
             meals = Meal.all.select {|meal| meal.user_id == userid}
-            my_meals = meals.map {|meal| "#{meal.name} -- contains: #{meal.protein.name} with #{meal.veggie.name} and #{meal.grain.name}"}
+            my_meals = meals.map {|meal| "    #{meal.name} -- contains: #{meal.protein.name} with #{meal.veggie.name} and #{meal.grain.name}"}
             if my_meals == []
                 puts "\n\n    You don't have any meals, yet!\n\n"
                 main_menu
             end
             return my_meals 
         end
-        Meal.all.map {|meal| "#{meal.name} -- contains: #{meal.protein.name} with #{meal.veggie.name} and #{meal.grain.name}"}
+        Meal.all.map {|meal| "    #{meal.name} -- contains: #{meal.protein.name} with #{meal.veggie.name} and #{meal.grain.name}"}
     end
 
     def select_a_meal
-        meal_name = prompt_select("    Select a user-created meal!", meal_with_components)
+        meal_name = prompt_select("    Select a user-created meal!\n", meal_with_components)
         meal = get_meal_by_name(meal_name)
         meal_transform(meal)
         puts "    Your new meal has been added!\n\n"
@@ -195,7 +195,7 @@ class Cli
 
     def get_meal_by_name(meal_name)
         meal_name = meal_name.split(' -- ')
-        name = meal_name.first
+        name = meal_name.first.strip
         meal = Meal.all.find_by(name: name)
     end
 
@@ -226,9 +226,13 @@ class Cli
     end
 
     def meal_transform meal
-        puts "What would you like to call your new meal?"
+        puts "    What would you like to call your new meal?"
         name = gets.strip
-        new_meal = Meal.create(name: name, protein: meal.protein, grain: meal.grain, veggie: meal.veggie, user: self.user)
+        transformed_meal = Meal.create(name: name, protein: meal.protein_id, grain: meal.grain_id, veggie: meal.veggie_id, user: self.user)
+        transformed_meal.protein_id = meal.protein_id
+        transformed_meal.veggie_id = meal.veggie_id
+        transformed_meal.grain_id = meal.grain_id
+        transformed_meal.save
     end
 
     def activity_choices
@@ -282,7 +286,7 @@ class Cli
     def get_and_create_user_info
         @user = User.new(name: get_name, age: get_age, weight: get_weight, height: get_height, sex: get_sex, activity: get_activity)
         @user.bmr = user.bmr_calc
-        puts "Thank you! Based on your information your maximum daily caloric intake should be #{@user.bmr}."
+        puts "\n    Thank you! Based on your information your maximum daily caloric intake should be #{@user.bmr}."
         @user.save
         @user
     end

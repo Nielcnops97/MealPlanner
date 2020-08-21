@@ -8,7 +8,7 @@
 * [Technologies](#technologies)
 * [Getting Started](#getting-started)
 * [Contact](#contact)
-*[License](#license)
+* [License](#license)
 
 
 ## About

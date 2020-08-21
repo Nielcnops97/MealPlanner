@@ -101,7 +101,7 @@ class Cli
     def destroy_meal(meal)
         meal.destroy
         system 'clear'
-        puts "    You meal has been destroyed! Good riddance!"
+        puts "    Your meal has been destroyed! Good riddance!"
         main_menu
     end
 

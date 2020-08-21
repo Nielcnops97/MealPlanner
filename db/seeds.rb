@@ -4,6 +4,9 @@ Protein.destroy_all
 User.destroy_all
 Veggie.destroy_all
 
+tj = User.create(name: "TJ", age: 25, height: 74, weight: 181 , sex: "M", activity: 2)
+jay = User.create(name: "Jay", age: 24, height: 68, weight: 161 , sex: "M", activity: 3)
+tj = User.create(name: "Niel", age: 23, height: 72, weight: 171 , sex: "M", activity: 1)
 
 brown_rice = Grain.create(name: "Brown Rice", calories: 160)
 wheat_bread = Grain.create(name: "Wheat Bread", calories: 91)

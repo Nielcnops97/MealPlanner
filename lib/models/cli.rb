@@ -19,6 +19,7 @@ class Cli
     end
 
     def sign_in_menu
+        system 'clear'
         prompt_select("\n\n    Welcome to MealPlanner!\n\n    What kind of user are you?\n", sign_in_choices)
     end
 
@@ -37,6 +38,7 @@ class Cli
             find_existing_user
         end
         @user = find_user(name)
+        system 'clear'
     end
  
     def find_user(name)
@@ -44,6 +46,7 @@ class Cli
     end
 
     def main_menu
+        #system 'clear'
         prompt_select("\n    What would you like to do?\n", main_menu_choices)
     end
 
@@ -64,6 +67,7 @@ class Cli
     end
 
     def change_or_destroy_meal_select(meal)
+        system 'clear'
         @prompt.select(
             "    What would you like to do with your meal?:\n\n    #{meal.name} -- contains: #{meal.protein.name} with #{meal.veggie.name} and #{meal.grain.name} - #{meal.calorie_count} calories\n\n",
             change_or_destroy(meal)
@@ -96,11 +100,13 @@ class Cli
 
     def destroy_meal(meal)
         meal.destroy
+        system 'clear'
         puts "    You meal has been destroyed! Good riddance!"
         main_menu
     end
 
     def change_user_info
+        system 'clear'
         @prompt.select("    Please select what info you would like to change:\n", user_info_choices)
     end
 
@@ -161,6 +167,7 @@ class Cli
     end
 
     def create_or_select_meal
+        system 'clear'
         prompt_select("    Would you like to make your own meal, or choose another user-created meal?", create_or_select_meal_choices)
     end
 
@@ -173,6 +180,7 @@ class Cli
     end
 
     def meal_with_components userid=nil
+        system 'clear'
         if userid
             meals = Meal.all.select {|meal| meal.user_id == userid}
             my_meals = meals.map {|meal| "    #{meal.name} -- contains: #{meal.protein.name} with #{meal.veggie.name} and #{meal.grain.name}"}
@@ -212,7 +220,7 @@ class Cli
     def combine_meals
         combined_meal_names = @prompt.multi_select("    Lets make a MealPlan! Select the meals you want to use:\n",  Meal.all.map {|meal| meal.name})
         combined_meals = combined_meal_names.map{|name| Meal.all.find_by(name: name)}
-        #combine_calories combined_meals
+        system 'clear'
         if combine_calories(combined_meals) >= user.bmr
             puts "\n    Total mealplan calories: #{combine_calories combined_meals}.\n    You are #{combine_calories(combined_meals) - user.bmr} over your daily calories."
         else
@@ -286,6 +294,7 @@ class Cli
     def get_and_create_user_info
         @user = User.new(name: get_name, age: get_age, weight: get_weight, height: get_height, sex: get_sex, activity: get_activity)
         @user.bmr = user.bmr_calc
+        system 'clear'
         puts "\n    Thank you! Based on your information your maximum daily caloric intake should be #{@user.bmr}."
         @user.save
         @user
@@ -332,6 +341,7 @@ class Cli
     end
 
     def quit
+        system 'clear'
         puts "\n\n    Goodbye for now! And happy eating!\n\n"
         $running = false
     end

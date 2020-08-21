@@ -17,7 +17,7 @@ MealPlanner was developed by three Flatiron School students with the goal of mak
 Count calories in real time! MealPlanner has all the tools you need to plan a healthier life:
 
 
-                    <img src="./MealPlanner.gif" width="400" height ="400" />
+   <img src="./MealPlanner.gif" width="400" height ="400" />
 
 * Save yourself as a unique user, so you never miss your meals!
 * Get a readout of your maximum recommended calories. The first step to better health is education!

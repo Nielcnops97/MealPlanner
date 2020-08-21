@@ -6,6 +6,7 @@ cli = Cli.new
 while $running == true do
     if cli.user == nil 
         @user = cli.sign_in_menu
+        binding.pry
     end
     cli.main_menu if $running == true
 end

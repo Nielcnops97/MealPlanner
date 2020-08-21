@@ -212,7 +212,6 @@ class Cli
     def combine_meals
         combined_meal_names = @prompt.multi_select("    Lets make a MealPlan! Select the meals you want to use:\n",  Meal.all.map {|meal| meal.name})
         combined_meals = combined_meal_names.map{|name| Meal.all.find_by(name: name)}
-        #combine_calories combined_meals
         if combine_calories(combined_meals) >= user.bmr
             puts "\n    Total mealplan calories: #{combine_calories combined_meals}.\n    You are #{combine_calories(combined_meals) - user.bmr} over your daily calories."
         else
